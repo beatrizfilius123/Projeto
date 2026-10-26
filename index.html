@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeWork | Segurança do Trabalho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">🛡️ SafeWork</div>
+    <p class="menu-title">MENU PRINCIPAL</p>
+
+    <button class="nav active" data-page="dashboard">🏠 Dashboard</button>
+    <button class="nav" data-page="epis">🦺 Controle de EPIs</button>
+    <button class="nav" data-page="entregas">📦 Entregas</button>
+    <button class="nav" data-page="funcionarios">👷 Funcionários</button>
+    <button class="nav" data-page="relatorios">📊 Relatórios</button>
+
+    <div class="sidebar-footer">
+      Portal de Segurança do Trabalho
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="page-title">Dashboard</h1>
+        <p>Gestão de segurança e equipamentos de proteção</p>
+      </div>
+      <span class="user">👤 Administrador</span>
+    </header>
+
+    <section id="dashboard" class="page">
+      <div class="welcome">
+        <div>
+          <h2>Bem-vindo ao SafeWork!</h2>
+          <p>Gerencie os equipamentos e acompanhe a segurança da equipe.</p>
+        </div>
+        <span>🛡️</span>
+      </div>
+
+      <div class="stats">
+        <article class="stat">
+          <span>EPIs cadastrados</span>
+          <strong id="total-epis">0</strong>
+          <small>Tipos de equipamentos</small>
+        </article>
+        <article class="stat">
+          <span>Unidades em estoque</span>
+          <strong id="total-estoque">0</strong>
+          <small>Quantidade disponível</small>
+        </article>
+        <article class="stat">
+          <span>Entregas registradas</span>
+          <strong id="total-entregas">0</strong>
+          <small>Registros realizados</small>
+        </article>
+        <article class="stat warning">
+          <span>Estoque baixo</span>
+          <strong id="total-baixo">0</strong>
+          <small>Itens com 5 unidades ou menos</small>
+        </article>
+      </div>
+
+      <div class="panel">
+        <h3>⚠️ Alertas de estoque</h3>
+        <div id="alertas"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Movimentações recentes</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Funcionário</th>
+                <th>Equipamento</th>
+                <th>Quantidade</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody id="recentes"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="epis" class="page hidden">
+      <div class="panel">
+        <h3>Cadastrar equipamento</h3>
+        <form id="form-epi">
+          <div class="form-grid">
+            <label>Nome do EPI
+              <input id="epi-nome" required placeholder="Ex.: Capacete de segurança">
+            </label>
+            <label>CA (Certificado de Aprovação)
+              <input id="epi-ca" placeholder="Número do CA">
+            </label>
+            <label>Quantidade inicial
+              <input id="epi-qtd" type="number" min="0" required value="0">
+            </label>
+            <label>Estoque mínimo
+              <input id="epi-min" type="number" min="0" required value="5">
+            </label>
+            <label>Validade do CA
+              <input id="epi-validade" type="date">
+            </label>
+          </div>
+          <button class="primary" type="submit">+ Cadastrar EPI</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>EPIs cadastrados</h3>
+        <input id="busca-epi" placeholder="Buscar equipamento..." class="search">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Equipamento</th>
+                <th>CA</th>
+                <th>Estoque</th>
+                <th>Validade do CA</th>
+                <th>Status</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="lista-epis"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="entregas" class="page hidden">
+      <div class="panel">
+        <h3>Registrar entrega de EPI</h3>
+        <form id="form-entrega">
+          <div class="form-grid">
+            <label>Funcionário
+              <select id="entrega-funcionario" required></select>
+            </label>
+            <label>Equipamento
+              <select id="entrega-epi" required></select>
+            </label>
+            <label>Quantidade
+              <input id="entrega-qtd" type="number" min="1" value="1" required>
+            </label>
+            <label>Data da entrega
+              <input id="entrega-data" type="date" required>
+            </label>
+            <label>Responsável pela entrega
+              <input id="entrega-responsavel" required placeholder="Nome do responsável">
+            </label>
+          </div>
+          <button class="primary" type="submit">Registrar entrega</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>Histórico de entregas</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Funcionário</th>
+                <th>EPI</th>
+                <th>Quantidade</th>
+                <th>Responsável</th>
+              </tr>
+            </thead>
+            <tbody id="lista-entregas"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="funcionarios" class="page hidden">
+      <div class="panel">
+        <h3>Cadastrar funcionário</h3>
+        <form id="form-funcionario">
+          <div class="form-grid">
+            <label>Nome completo
+              <input id="func-nome" required>
+            </label>
+            <label>Setor
+              <input id="func-setor" required placeholder="Ex.: Produção">
+            </label>
+            <label>Função
+              <input id="func-funcao" required placeholder="Ex.: Operador">
+            </label>
+          </div>
+          <button class="primary" type="submit">+ Cadastrar funcionário</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>Equipe cadastrada</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Setor</th>
+                <th>Função</th>
+              </tr>
+            </thead>
+            <tbody id="lista-funcionarios"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="page hidden">
+      <div class="panel">
+        <h3>Relatório de controle de EPI</h3>
+        <p>Exporte os registros para análise e conferência.</p>
+        <button class="primary" id="exportar">⬇ Exportar entregas em CSV</button>
+        <button class="secondary" id="exportar-estoque">⬇ Exportar estoque em CSV</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
